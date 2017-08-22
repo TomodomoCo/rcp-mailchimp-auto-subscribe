@@ -32,13 +32,31 @@ function rcp_tweaks_set_mailchimp_list_id() {
 }
 
 /**
+ * Optional filter to only auto-sub members for specific subscriptions (listed as an array of IDs); defaults to all subscription levels
+ *
+ * @return bool
+ */
+function rcp_tweaks_applicable_subscription_levels() {
+	$subscription_levels_to_check = apply_filters( 'rcp_tweaks_subscription_levels_for_auto_signup', function() {
+		return NULL;
+	} );
+
+	if ( ! in_array( $member->get_subscription_id(), $subscription_levels_to_check ) || ! is_null( $subscription_levels_to_check ) ) {
+		return false;
+	}
+
+	return true;
+}
+// add_filter( 'rcp_tweaks_subscription_levels_for_auto_signup', function() { return array( 1, 2, 3 ); } );
+
+/**
  * Automatically subscribes a user to a secondary list upon account activation
  *
  * @param RCP_Member $member
  *
  * @return void
  */
-function ag_rcp_after_registration( $member ) {
+function rcp_tweaks_after_registration( $member ) {
 
 	// Bail if they don't have one of these level IDs.
 	$subscription_levels_to_check = apply_filters( 'rcp_tweaks_subscription_levels_for_auto_signup', function() {
@@ -71,4 +89,4 @@ function ag_rcp_after_registration( $member ) {
 		error_log( 'email could not be subscribed: ' . $member->user_email  );
 	}
 }
-add_action( 'rcp_successful_registration', 'ag_rcp_after_registration' );
+add_action( 'rcp_successful_registration', 'rcp_tweaks_after_registration' );
