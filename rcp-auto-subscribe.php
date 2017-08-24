@@ -9,6 +9,13 @@ Author URI: https://www.vanpattenmedia.com/
 Contributors: chrisvanpatten, mcfarlan
 */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+require_once __DIR__ . '/includes/utils.php';
+
 /**
  * Sample usage of using a custom MailChimp `list_id`
  *
@@ -18,6 +25,34 @@ Contributors: chrisvanpatten, mcfarlan
  * - below is a sample of using a that has been fetched manually `list_id`
  */
 // add_filter( 'rcp_tweak_auto_signup_mailchimp_list_id', function() { return '58362286b4'; } );
+
+/**
+ * Checks if Gravity Forms and RCP are installed and active; self-deactivates if `false`
+ *
+ * @return bool
+ */
+function rcp_tweaks_are_required_plugins_active() {
+	$self_deactivate = false;
+
+	if ( ! is_plugin_active( 'restrict-content-pro/restrict-content-pro.php' ) || ! class_exists( 'RCP_Member' ) ) {
+		$self_deactivate = true;
+		add_action( 'admin_notices', 'rcp_tweaks_notice_activate_rcp' );
+	}
+
+	if ( ! is_plugin_active( 'rcp-mailchimp/rcp-mailchimp.php' ) || ! function_exists( 'rcp_mailchimp_settings_menu' ) ) {
+		$self_deactivate = true;
+		add_action( 'admin_notices', 'rcp_tweaks_notice_activate_rcp_mailchimp' );
+	}
+
+	if ( $self_deactivate === false ) {
+		return true;
+	}
+
+	deactivate_plugins( plugin_basename( __FILE__), true );
+
+	return false;
+}
+add_action( 'admin_init', 'rcp_tweaks_are_required_plugins_active' );
 
 /**
  * Fetch the list id to subscribe to automagically; defaults to first list in MC admin
