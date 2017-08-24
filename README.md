@@ -35,8 +35,8 @@ add_filter( 'rcp_auto_mc_signup_mailchimp_list_id', 'rcp_auto_mc_override_list_i
 
 ## License & Conduct
 
-This project is licensed under the terms of the MIT License, included in `LICENSE.md`.
+This project is licensed under the terms of the MIT License, included in [`LICENSE.md`](LICENSE.md).
 
-All Van Patten Media Inc. open source projects follow a strict code of conduct, included in `CODEOFCONDUCT.md`. We ask that all contributors adhere to the standards and guidelines in that document.
+All Van Patten Media Inc. open source projects follow a strict code of conduct, included in [`CODEOFCONDUCT.md`](CODEOFCONDUCT.md). We ask that all contributors adhere to the standards and guidelines in that document.
 
 Thank you!
