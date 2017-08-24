@@ -12,12 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return array|string $data|$results
  */
-function rcp_tweaks_get_plugin_data( $field = 'all' ) {
+function rcp_auto_mc_get_plugin_data( $field = 'all' ) {
 	$data = array(
 		'slug'    => 'rcp-auto-subscribe',
-		'prefix'  => 'rcp_auto',
+		'prefix'  => 'rcp_auto_mc',
 		'name'    => 'Restrict Content Pro Auto MailChimp Subscribe',
-		'version' => '1.0.0'
+		'version' => '1.0.1'
 	);
 
 	if ( $field !== 'all' ) {
@@ -47,7 +47,7 @@ function rcp_tweaks_get_plugin_data( $field = 'all' ) {
  * @param string    $message
  * @param string    $type
  */
-function rcp_tweaks_build_admin_notice( $message, $type = 'error' ) {
+function rcp_auto_mc_build_admin_notice( $message, $type = 'error' ) {
 
 	// @todo: remove is-dismissible or finish relevant work on dismissed state
 	$wrap = '<div class="%2$s notice is-dismissible"><p>%1$s</p></div>';
@@ -58,17 +58,17 @@ function rcp_tweaks_build_admin_notice( $message, $type = 'error' ) {
 /**
  * Display notice to install and activate Gravity Forms
  */
-function rcp_tweaks_notice_activate_rcp_mailchimp(){
-	$message = '<strong>Warning!</strong> Restrict Content Pro MailChimp needs to be installed and activated for ' . rcp_tweaks_get_plugin_data( 'name' ) . '.';
+function rcp_auto_mc_notice_activate_rcp_mailchimp(){
+	$message = '<strong>Warning!</strong> Restrict Content Pro MailChimp needs to be installed and activated for ' . rcp_auto_mc_get_plugin_data( 'name' ) . '.';
 
-	rcp_tweaks_build_admin_notice( $message, 'error' );
+	rcp_auto_mc_build_admin_notice( $message, 'error' );
 }
 
 /**
  * Display notice to install and activate RCP
  */
-function rcp_tweaks_notice_activate_rcp(){
-	$message = '<strong>Warning!</strong> Restrict Content Pro needs to be installed and activated for ' . rcp_tweaks_get_plugin_data( 'name' ) . '.';
+function rcp_auto_mc_notice_activate_rcp(){
+	$message = '<strong>Warning!</strong> Restrict Content Pro needs to be installed and activated for ' . rcp_auto_mc_get_plugin_data( 'name' ) . '.';
 
-	rcp_tweaks_build_admin_notice( $message, 'error' );
+	rcp_auto_mc_build_admin_notice( $message, 'error' );
 }

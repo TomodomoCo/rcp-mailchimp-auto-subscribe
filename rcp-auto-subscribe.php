@@ -31,17 +31,17 @@ require_once __DIR__ . '/includes/utils.php';
  *
  * @return bool
  */
-function rcp_tweaks_are_required_plugins_active() {
+function rcp_auto_mc_are_required_plugins_active() {
 	$self_deactivate = false;
 
 	if ( ! is_plugin_active( 'restrict-content-pro/restrict-content-pro.php' ) || ! class_exists( 'RCP_Member' ) ) {
 		$self_deactivate = true;
-		add_action( 'admin_notices', 'rcp_tweaks_notice_activate_rcp' );
+		add_action( 'admin_notices', 'rcp_auto_mc_notice_activate_rcp' );
 	}
 
 	if ( ! is_plugin_active( 'rcp-mailchimp/rcp-mailchimp.php' ) || ! function_exists( 'rcp_mailchimp_settings_menu' ) ) {
 		$self_deactivate = true;
-		add_action( 'admin_notices', 'rcp_tweaks_notice_activate_rcp_mailchimp' );
+		add_action( 'admin_notices', 'rcp_auto_mc_notice_activate_rcp_mailchimp' );
 	}
 
 	if ( $self_deactivate === false ) {
@@ -52,14 +52,14 @@ function rcp_tweaks_are_required_plugins_active() {
 
 	return false;
 }
-add_action( 'admin_init', 'rcp_tweaks_are_required_plugins_active' );
+add_action( 'admin_init', 'rcp_auto_mc_are_required_plugins_active' );
 
 /**
  * Fetch the list id to subscribe to automagically; defaults to first list in MC admin
  *
  * @return string $list_id
  */
-function rcp_tweaks_set_mailchimp_list_id() {
+function rcp_auto_mc_set_mailchimp_list_id() {
 	$lists   = rcp_get_mailchimp_lists();
 	$list_id = apply_filters( 'rcp_tweak_auto_signup_mailchimp_list_id', $lists[0]['id'] );
 
@@ -71,8 +71,8 @@ function rcp_tweaks_set_mailchimp_list_id() {
  *
  * @return bool
  */
-function rcp_tweaks_applicable_subscription_levels() {
-	$subscription_levels_to_check = apply_filters( 'rcp_tweaks_subscription_levels_for_auto_signup', function() {
+function rcp_auto_mc_applicable_subscription_levels() {
+	$subscription_levels_to_check = apply_filters( 'rcp_auto_mc_subscription_levels_for_auto_signup', function() {
 		return NULL;
 	} );
 
@@ -82,7 +82,7 @@ function rcp_tweaks_applicable_subscription_levels() {
 
 	return true;
 }
-// add_filter( 'rcp_tweaks_subscription_levels_for_auto_signup', function() { return array( 1, 2, 3 ); } );
+// add_filter( 'rcp_auto_mc_subscription_levels_for_auto_signup', function() { return array( 1, 2, 3 ); } );
 
 /**
  * Automatically subscribes a user to a secondary list upon account activation
@@ -91,10 +91,10 @@ function rcp_tweaks_applicable_subscription_levels() {
  *
  * @return void
  */
-function rcp_tweaks_after_registration( $member ) {
+function rcp_auto_mc_after_registration( $member ) {
 
 	// Optional check on subscription level
-	$apply_to_subscription = rcp_tweaks_applicable_subscription_levels();
+	$apply_to_subscription = rcp_auto_mc_applicable_subscription_levels();
 
 	if ( $apply_to_subscription !== false ) {
 
@@ -102,7 +102,7 @@ function rcp_tweaks_after_registration( $member ) {
 			require dirname( plugin_dir_path(__FILE__) ) . 'rcp-mailchimp/mailchimp/MCAPI.class.php';
 		}
 
-		$list_id   = rcp_tweaks_set_mailchimp_list_id();
+		$list_id   = rcp_auto_mc_set_mailchimp_list_id();
 		$creds     = get_option( 'rcp_mailchimp_settings' );
 		$mailchimp = new MCAPI( $creds['mailchimp_api'] );
 
@@ -117,4 +117,4 @@ function rcp_tweaks_after_registration( $member ) {
 		}
 	}
 }
-add_action( 'rcp_successful_registration', 'rcp_tweaks_after_registration' );
+add_action( 'rcp_successful_registration', 'rcp_auto_mc_after_registration' );
