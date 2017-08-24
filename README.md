@@ -1,4 +1,4 @@
-# rcp-mailchimp-auto-subscribe
+# Restrict Content Pro Auto MailChimp Subscribe
 
 Automatically subscribe users to MailChimp lists (without explicit opt-in). Requires [Restrict Content Pro MailChimp](https://restrictcontentpro.com/addons/mailchimp) and [Restrict Content Pro](https://restrictcontentpro.com).
 
@@ -12,7 +12,9 @@ Automatically subscribe users to MailChimp lists (without explicit opt-in). Requ
 
 Once the plugin is active, you can define a secondary MailChimp list by its `list_id` through a filter. This `list_id` is not the same as the ID or integer in MailChimp URLs.
 
-To retrieve the appropriate MailChimp `list_id`, make use of Restrict Content Pro MailChimp function `rcp_get_mailchimp_lists` on some temporary template side code or via `error_log`. Example:
+To retrieve the appropriate MailChimp `list_id`, make use of Restrict Content Pro MailChimp function `rcp_get_mailchimp_lists` on some temporary template side code or via `error_log`.
+
+Example of finding your `list_id`:
 
 ```
 <pre>
@@ -20,7 +22,9 @@ To retrieve the appropriate MailChimp `list_id`, make use of Restrict Content Pr
 </pre>
 ```
 
-Find the appropriate `list_id` in this temporary output and make use of the `rcp_auto_mc_signup_mailchimp_list_id` filter. Example:
+Find the appropriate `list_id` in this temporary output and make use of the `rcp_auto_mc_signup_mailchimp_list_id` filter.
+
+Example filter usage:
 
 ```
 function rcp_auto_mc_override_list_id() {

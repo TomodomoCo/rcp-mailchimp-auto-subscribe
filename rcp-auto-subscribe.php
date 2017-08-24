@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Restrict Content Pro Auto Subscribe
+Plugin Name: Restrict Content Pro Auto MailChimp Subscribe
 Plugin URI: http://www.vanpattenmedia.com/
 Description: Automatically add new members to other MailChimp lists upon signup
 Version: 1.0.1
