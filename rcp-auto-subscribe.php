@@ -24,7 +24,7 @@ require_once __DIR__ . '/includes/utils.php';
  * - by default the first item in the list is the fallback if no override is present
  * - below is a sample of using a that has been fetched manually `list_id`
  */
-// add_filter( 'rcp_tweak_auto_signup_mailchimp_list_id', function() { return '58362286b4'; } );
+// add_filter( 'rcp_auto_mc_signup_mailchimp_list_id', function() { return '58362286b4'; } );
 
 /**
  * Checks if RCP and RCP MailChimp are installed and active; self-deactivates if `false`
@@ -61,7 +61,7 @@ add_action( 'admin_init', 'rcp_auto_mc_are_required_plugins_active' );
  */
 function rcp_auto_mc_set_mailchimp_list_id() {
 	$lists   = rcp_get_mailchimp_lists();
-	$list_id = apply_filters( 'rcp_tweak_auto_signup_mailchimp_list_id', $lists[0]['id'] );
+	$list_id = apply_filters( 'rcp_auto_mc_signup_mailchimp_list_id', $lists[0]['id'] );
 
 	return $list_id;
 }
