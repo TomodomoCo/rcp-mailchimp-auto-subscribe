@@ -64,7 +64,7 @@ function rcp_tweaks_after_registration( $member ) {
 	if ( $apply_to_subscription !== false ) {
 
 		if ( ! class_exists( 'MCAPI' ) ) {
-			require dirname( plugin_dir_path(__FILE__) ) . '/rcp-mailchimp/mailchimp/MCAPI.class.php';
+			require trailingslashit( dirname( plugin_dir_path(__FILE__) ) ) . 'rcp-mailchimp/mailchimp/MCAPI.class.php';
 		}
 
 		$list_id   = rcp_tweaks_set_mailchimp_list_id();
