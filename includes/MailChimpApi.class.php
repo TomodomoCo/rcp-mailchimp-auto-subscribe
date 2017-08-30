@@ -5,7 +5,7 @@
  *
  * @deprecated 1.3
  */
-class MailChimpAPI {
+class MCAPI {
 	var $version = "1.3";
 	var $errorMessage;
 	var $errorCode;

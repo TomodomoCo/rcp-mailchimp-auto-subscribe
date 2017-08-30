@@ -45,10 +45,9 @@ function rcp_tweaks_after_registration( $member ) {
 
 	if ( ! class_exists( 'MCAPI' ) ) {
 		require trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/MailChimpApi.class.php';
-		$mailchimp = new MailChimpAPI( $creds['mailchimp_api'] );
-	} else {
-		$mailchimp = new MCAPI( $creds['mailchimp_api'] );
 	}
+
+	$mailchimp = new MCAPI( $creds['mailchimp_api'] );
 
 	try {
 		$response = $mailchimp->listSubscribe( $list_id, $member->user_email, null, 'html', false );
