@@ -39,7 +39,7 @@ function rcp_auto_mc_are_required_plugins_active() {
 		add_action( 'admin_notices', 'rcp_auto_mc_notice_activate_rcp' );
 	}
 
-	if ( ! is_plugin_active( 'rcp-mailchimp/rcp-mailchimp.php' ) || ! function_exists( 'rcp_mailchimp_settings_menu' ) ) {
+	if ( ( ! is_plugin_active( 'mail-chimp-add-on-for-restrict-content-pro/rcp-mailchimp.php' ) || ! is_plugin_active( 'rcp-mailchimp/rcp-mailchimp.php' ) ) && ! function_exists( 'rcp_mailchimp_settings_menu' ) ) {
 		$self_deactivate = true;
 		add_action( 'admin_notices', 'rcp_auto_mc_notice_activate_rcp_mailchimp' );
 	}
