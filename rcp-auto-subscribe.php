@@ -93,28 +93,24 @@ function rcp_auto_mc_applicable_subscription_levels() {
  */
 function rcp_auto_mc_after_registration( $member ) {
 
-	// Optional check on subscription level
-	$apply_to_subscription = rcp_auto_mc_applicable_subscription_levels();
+	if ( ! class_exists( 'MCAPI' ) ) {
+		require trailingslashit( plugin_dir_path( __FILE__ ) ) . 'includes/MailChimpApi.class.php';
+	}
 
-	if ( $apply_to_subscription !== false ) {
+	$list_id   = rcp_auto_mc_set_mailchimp_list_id();
+	$creds     = get_option( 'rcp_mailchimp_settings' );
+	$mailchimp = new MCAPI( $creds['mailchimp_api'] );
 
-		if ( ! class_exists( 'MCAPI' ) ) {
-			require dirname( plugin_dir_path(__FILE__) ) . 'rcp-mailchimp/mailchimp/MCAPI.class.php';
-		}
+	try {
+		$response = $mailchimp->listSubscribe( $list_id, $member->user_email, null, 'html', false );
 
-		$list_id   = rcp_auto_mc_set_mailchimp_list_id();
-		$creds     = get_option( 'rcp_mailchimp_settings' );
-		$mailchimp = new MCAPI( $creds['mailchimp_api'] );
+	} catch ( Exception $exception ) {
+		error_log( $exception );
+		$response = false;
+	}
 
-		try {
-			$response = $mailchimp->listSubscribe( $list_id, $member->user_email, NULL, 'html', false );
-		} catch(Exception $exception) {
-			error_log( $exception );
-		}
-
-		if ( $response === false ) {
-			error_log( 'email could not be subscribed: ' . $member->user_email  );
-		}
+	if ( $response === false || ! isset( $response ) ) {
+		error_log( 'email could not be subscribed: ' . $member->user_email );
 	}
 }
 add_action( 'rcp_successful_registration', 'rcp_auto_mc_after_registration' );
